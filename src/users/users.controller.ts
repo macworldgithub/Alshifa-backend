@@ -8,6 +8,7 @@ import {
   Put,
   Delete,
   UseGuards,
+  Query
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,6 +21,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBearerAuth,
+  ApiQuery
 } from '@nestjs/swagger';
 
 @ApiTags('users')
@@ -37,12 +39,13 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Get()
+@Get()
   @Roles('Admin')
-  @ApiOperation({ summary: 'Get all users' })
+  @ApiOperation({ summary: 'Get all users (optionally filtered by role)' })
   @ApiResponse({ status: 200, description: 'List of users' })
-  findAll() {
-    return this.usersService.findAll();
+  @ApiQuery({ name: 'role', required: false, enum: ['Admin', 'Receptionist', 'Nurse', 'Doctor', 'Pharmacist', 'Lab Technician', 'Accountant'] })
+  findAll(@Query('role') role?: string) {
+    return this.usersService.findAll(role);
   }
 
   @Get(':id')

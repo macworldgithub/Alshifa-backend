@@ -20,9 +20,15 @@ export class UsersService {
     return user.save();
   }
 
-  async findAll(): Promise<UserDocument[]> {
-    return this.userModel.find().exec();
+ async findAll(role?: string): Promise<UserDocument[]> {
+  const query: any = {};
+
+  if (role) {
+    query.role = role;
   }
+
+  return this.userModel.find(query).exec();
+}
 
   async findOne(id: string): Promise<UserDocument | null> {
     return this.userModel.findById(id).exec();
@@ -30,6 +36,9 @@ export class UsersService {
 
   async findByUsername(username: string): Promise<UserDocument | null> {
     return this.userModel.findOne({ username }).exec();
+  }
+  async findByEmail(email: string): Promise<UserDocument | null> {
+    return this.userModel.findOne({ email }).exec();
   }
 
   async update(

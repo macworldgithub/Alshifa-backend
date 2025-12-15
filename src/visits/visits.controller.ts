@@ -31,7 +31,7 @@ export class VisitsController {
   constructor(private readonly visitsService: VisitsService) {}
 
   @Post()
-  @Roles('Receptionist')
+  @Roles('Receptionist','Admin')
   @ApiOperation({ summary: 'Create a new visit' })
   @ApiResponse({ status: 201, description: 'Visit created' })
   create(@Body() createVisitDto: CreateVisitDto, @Request() req) {
