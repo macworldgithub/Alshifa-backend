@@ -33,7 +33,7 @@ export class NursingAssessmentsController {
   ) {}
 
   @Post()
-  @Roles('Nurse')
+  @Roles('Admin','Nurse')
   @ApiOperation({ summary: 'Create nursing assessment' })
   @ApiResponse({ status: 201, description: 'Assessment created' })
   create(

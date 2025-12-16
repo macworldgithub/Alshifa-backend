@@ -31,7 +31,7 @@ export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
   @Post()
-  @Roles('Doctor')
+  @Roles('Doctor','Admin')
   @ApiOperation({ summary: 'Create note' })
   @ApiResponse({ status: 201, description: 'Note created' })
   create(@Body() createNoteDto: CreateNoteDto, @Request() req) {

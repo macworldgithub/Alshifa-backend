@@ -31,7 +31,7 @@ export class VaccinationsController {
   constructor(private readonly vaccinationsService: VaccinationsService) {}
 
   @Post()
-  @Roles('Nurse')
+  @Roles('Admin','Nurse')
   @ApiOperation({ summary: 'Create vaccination record' })
   @ApiResponse({ status: 201, description: 'Vaccination created' })
   create(@Body() createVaccinationDto: CreateVaccinationDto, @Request() req) {
