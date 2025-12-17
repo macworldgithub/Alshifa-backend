@@ -9,8 +9,29 @@ class LoginDto {
   password: string;
 }
 
+// src/auth/dto/login-response.dto.ts (or inside auth.controller.ts)
+class UserResponseDto {
+  _id: string;
+  fullName: string;
+  username: string;
+  role: string;
+  mobileNumber?: string;
+  assignedDepartment?: string;
+  status: string;
+  department?: string;
+  specialization?: string;
+  email?: string;
+  availabilityTimings?: string;
+  assignedRoom?: string;
+  maxDailyPatients?: number;
+  assignedCounter?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 class LoginResponseDto {
   access_token: string;
+  user: UserResponseDto;
 }
 
 @ApiTags('auth')
