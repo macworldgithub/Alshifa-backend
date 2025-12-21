@@ -83,6 +83,7 @@ import {
   Put,
   Delete,
   UseGuards,
+  Query
 } from '@nestjs/common';
 import { MedicinesService } from './medicines.service';
 import { CreateMedicineDto } from './dto/create-medicine.dto';
@@ -95,6 +96,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBearerAuth,
+  ApiQuery
 } from '@nestjs/swagger';
 
 @ApiTags('medicines')
@@ -111,15 +113,24 @@ export class MedicinesController {
     return this.medicinesService.getAllClasses();
   }
 
+//  @Post('populate-concepts')
+//   @Roles('Admin')
+//   @ApiOperation({ summary: 'Populate medicine concepts from RxNav' })
+//   @ApiResponse({ status: 201, description: 'Concepts populated' })
+//   populateConcepts() {
+//     return this.medicinesService.populateConcepts();
+//   }
+
   @Get('all-concepts')
   @Roles('Doctor', 'Pharmacist', 'Admin')
-  @ApiOperation({ summary: 'Get all RxTerms concepts from RxNav' })
+  @ApiOperation({ summary: 'Get all or searched RxTerms concepts from DB' })
+  @ApiQuery({ name: 'search', required: false })
   @ApiResponse({ status: 200, description: 'All RxTerms concepts' })
-  getAllConcepts() {
-    return this.medicinesService.getAllConcepts();
+  getAllConcepts(@Query('search') search: string) {
+    return this.medicinesService.getAllConcepts(search);
   }
   @Post()
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Create medicine prescription' })
   @ApiResponse({ status: 201, description: 'Medicine created' })
   create(@Body() createMedicineDto: CreateMedicineDto) {
@@ -143,7 +154,7 @@ export class MedicinesController {
   }
 
   @Put(':id')
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Update medicine by ID' })
   @ApiResponse({ status: 200, description: 'Medicine updated' })
   update(
@@ -154,7 +165,7 @@ export class MedicinesController {
   }
 
   @Delete(':id')
-  @Roles('Admin')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Delete medicine by ID' })
   @ApiResponse({ status: 200, description: 'Medicine deleted' })
   remove(@Param('id') id: string) {
