@@ -40,7 +40,7 @@ export class FavoritesController {
   }
 
   @Get()
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Get favorites by doctor' })
   @ApiResponse({ status: 200, description: 'List of favorites' })
   findByDoctor(@Request() req) {
