@@ -56,7 +56,9 @@ import { lastValueFrom } from 'rxjs';
 export class MedicinesService {
   constructor(
     @InjectModel(Medicine.name) private medicineModel: Model<MedicineDocument>,
-@InjectModel('MedicineConcept') private medicineConceptModel: Model<MedicineConceptDocument>,    private readonly httpService: HttpService,
+    @InjectModel('MedicineConcept')
+    private medicineConceptModel: Model<MedicineConceptDocument>,
+    private readonly httpService: HttpService,
   ) {}
 
   async create(
@@ -95,7 +97,6 @@ export class MedicinesService {
     return data.data;
   }
 
-  
   // async getAllConcepts(search?: string): Promise<any[]> {
   //   const query = search ? { fullName: { $regex: search, $options: 'i' } } : {};
   //   return this.medicineConceptModel.find(query).exec();
@@ -112,6 +113,6 @@ export class MedicinesService {
 
   async getAllConcepts(search?: string): Promise<any[]> {
     const query = search ? { fullName: { $regex: search, $options: 'i' } } : {};
-    return this.medicineConceptModel.find(query).exec();
+    return this.medicineConceptModel.find(query).select('fullName').lean();
   }
 }
