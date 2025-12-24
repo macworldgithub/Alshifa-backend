@@ -115,4 +115,42 @@ export class MedicinesService {
     const query = search ? { fullName: { $regex: search, $options: 'i' } } : {};
     return this.medicineConceptModel.find(query).select('fullName').lean();
   }
+  async getCommonMedicines(
+    limit: number = 7,
+  ): Promise<{ name: string; value: number }[]> {
+    const result = await this.medicineModel
+      .aggregate([
+        {
+          $group: {
+            _id: '$medicineName', // Group by medicineName
+            count: { $sum: 1 }, // Count occurrences
+          },
+        },
+        { $sort: { count: -1 } }, // Sort by most prescribed first
+        { $limit: limit }, // Limit to top N (default 7)
+        {
+          $project: {
+            _id: 0,
+            name: '$_id', // Rename _id to 'name'
+            value: '$count', // Rename count to 'value'
+          },
+        },
+      ])
+      .exec();
+
+    // Optional: Return fallback data if no prescriptions exist yet
+    // if (result.length === 0) {
+    //   return [
+    //     { name: 'Paracetamol', value: 85 },
+    //     { name: 'Amoxicillin', value: 72 },
+    //     { name: 'Ibuprofen', value: 68 },
+    //     { name: 'Metformin', value: 55 },
+    //     { name: 'Omeprazole', value: 48 },
+    //     { name: 'Amlodipine', value: 42 },
+    //     { name: 'Atorvastatin', value: 38 },
+    //   ];
+    // }
+
+    return result;
+  }
 }

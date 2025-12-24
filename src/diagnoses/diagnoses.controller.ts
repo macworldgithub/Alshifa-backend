@@ -31,7 +31,21 @@ import {
 @ApiBearerAuth()
 export class DiagnosesController {
   constructor(private readonly diagnosesService: DiagnosesService) {}
-
+  @Get('diseases')
+  @Roles('Doctor', 'Admin')
+  @ApiOperation({ summary: 'Search diseases' })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiResponse({ status: 200, description: 'List of diseases' })
+  searchDiseases(@Query('search') search: string) {
+    return this.diagnosesService.searchDiseases(search);
+  }
+  @Get('common')
+  @Roles('Doctor', 'Admin')
+  @ApiOperation({ summary: 'Get common diagnoses' })
+  @ApiResponse({ status: 200, description: 'Common diagnoses' })
+  getCommon() {
+    return this.diagnosesService.getCommon();
+  }
   @Post()
   @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Create diagnosis' })
@@ -65,20 +79,5 @@ export class DiagnosesController {
   @ApiResponse({ status: 200, description: 'Diagnosis deleted' })
   remove(@Param('id') id: string) {
     return this.diagnosesService.remove(id);
-  }
-  @Get('diseases')
-  @Roles('Doctor', 'Admin')
-  @ApiOperation({ summary: 'Search diseases' })
-  @ApiQuery({ name: 'search', required: false })
-  @ApiResponse({ status: 200, description: 'List of diseases' })
-  searchDiseases(@Query('search') search: string) {
-    return this.diagnosesService.searchDiseases(search);
-  }
-  @Get('common')
-  @Roles('Doctor', 'Admin')
-  @ApiOperation({ summary: 'Get common diagnoses' })
-  @ApiResponse({ status: 200, description: 'Common diagnoses' })
-  getCommon() {
-    return this.diagnosesService.getCommon();
   }
 }

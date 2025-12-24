@@ -83,7 +83,7 @@ import {
   Put,
   Delete,
   UseGuards,
-  Query
+  Query,
 } from '@nestjs/common';
 import { MedicinesService } from './medicines.service';
 import { CreateMedicineDto } from './dto/create-medicine.dto';
@@ -96,7 +96,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBearerAuth,
-  ApiQuery
+  ApiQuery,
 } from '@nestjs/swagger';
 
 @ApiTags('medicines')
@@ -113,13 +113,13 @@ export class MedicinesController {
     return this.medicinesService.getAllClasses();
   }
 
-//  @Post('populate-concepts')
-//   @Roles('Admin')
-//   @ApiOperation({ summary: 'Populate medicine concepts from RxNav' })
-//   @ApiResponse({ status: 201, description: 'Concepts populated' })
-//   populateConcepts() {
-//     return this.medicinesService.populateConcepts();
-//   }
+  //  @Post('populate-concepts')
+  //   @Roles('Admin')
+  //   @ApiOperation({ summary: 'Populate medicine concepts from RxNav' })
+  //   @ApiResponse({ status: 201, description: 'Concepts populated' })
+  //   populateConcepts() {
+  //     return this.medicinesService.populateConcepts();
+  //   }
 
   @Get('all-concepts')
   @Roles('Doctor', 'Pharmacist', 'Admin')
@@ -128,6 +128,17 @@ export class MedicinesController {
   @ApiResponse({ status: 200, description: 'All RxTerms concepts' })
   getAllConcepts(@Query('search') search: string) {
     return this.medicinesService.getAllConcepts(search);
+  }
+  @Get('common')
+  @Roles('Doctor', 'Pharmacist', 'Admin')
+  @ApiOperation({ summary: 'Get most commonly prescribed medicines' })
+  @ApiResponse({
+    status: 200,
+    description: 'Top prescribed medicines with counts',
+    type: [Object],
+  })
+  async getCommonMedicines() {
+    return this.medicinesService.getCommonMedicines();
   }
   @Post()
   @Roles('Doctor', 'Admin')
