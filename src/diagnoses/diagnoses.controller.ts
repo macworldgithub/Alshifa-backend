@@ -9,6 +9,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { DiagnosesService } from './diagnoses.service';
 import { CreateDiagnosisDto } from './dto/create-diagnosis.dto';
@@ -21,6 +22,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBearerAuth,
+  ApiQuery,
 } from '@nestjs/swagger';
 
 @ApiTags('diagnoses')
@@ -63,5 +65,13 @@ export class DiagnosesController {
   @ApiResponse({ status: 200, description: 'Diagnosis deleted' })
   remove(@Param('id') id: string) {
     return this.diagnosesService.remove(id);
+  }
+  @Get('diseases')
+  @Roles('Doctor', 'Admin')
+  @ApiOperation({ summary: 'Search diseases' })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiResponse({ status: 200, description: 'List of diseases' })
+  searchDiseases(@Query('search') search: string) {
+    return this.diagnosesService.searchDiseases(search);
   }
 }

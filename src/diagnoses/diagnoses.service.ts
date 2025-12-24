@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DiagnosisDocument, Diagnosis } from 'src/schemas/diagnosis.schema';
+import { DiseaseDocument, Disease } from 'src/schemas/disease.schema'; // Assuming the schema is named Disease
 import { CreateDiagnosisDto } from './dto/create-diagnosis.dto';
 import { UpdateDiagnosisDto } from './dto/update-diagnosis.dto';
 
@@ -11,6 +12,8 @@ export class DiagnosesService {
   constructor(
     @InjectModel(Diagnosis.name)
     private diagnosisModel: Model<DiagnosisDocument>,
+    @InjectModel(Disease.name)
+    private diseaseModel: Model<DiseaseDocument>,
   ) {}
 
   async create(
@@ -39,5 +42,16 @@ export class DiagnosesService {
 
   async remove(id: string): Promise<DiagnosisDocument | null> {
     return this.diagnosisModel.findByIdAndDelete(id).exec();
+  }
+  async searchDiseases(
+    search: string = '',
+  ): Promise<{ code: string; name: string }[]> {
+    const query = search ? { name: { $regex: search, $options: 'i' } } : {};
+
+    return this.diseaseModel
+      .find(query)
+      .select('code name')
+      .lean() // ✅ makes it faster
+      .exec();
   }
 }
