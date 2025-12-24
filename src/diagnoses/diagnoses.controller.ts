@@ -74,4 +74,11 @@ export class DiagnosesController {
   searchDiseases(@Query('search') search: string) {
     return this.diagnosesService.searchDiseases(search);
   }
+  @Get('common')
+  @Roles('Doctor', 'Admin')
+  @ApiOperation({ summary: 'Get common diagnoses' })
+  @ApiResponse({ status: 200, description: 'Common diagnoses' })
+  getCommon() {
+    return this.diagnosesService.getCommon();
+  }
 }

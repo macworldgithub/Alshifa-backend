@@ -54,4 +54,14 @@ export class DiagnosesService {
       .lean() // ✅ makes it faster
       .exec();
   }
+  async getCommon(): Promise<any[]> {
+    return this.diagnosisModel
+      .aggregate([
+        { $group: { _id: '$finalDiagnosis', count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+        { $limit: 7 },
+        { $project: { code: '$_id', value: '$count', _id: 0 } },
+      ])
+      .exec();
+  }
 }

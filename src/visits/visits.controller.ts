@@ -45,6 +45,21 @@ export class VisitsController {
   findAll() {
     return this.visitsService.findAll();
   }
+  @Get('appointment-stats')
+  @Roles('Receptionist', 'Nurse', 'Doctor', 'Admin')
+  @ApiOperation({ summary: 'Get appointment stats' })
+  @ApiResponse({ status: 200, description: 'Appointment stats' })
+  getAppointmentStats() {
+    return this.visitsService.getAppointmentStats();
+  }
+
+  @Get('status-counts')
+  @Roles('Receptionist', 'Nurse', 'Doctor', 'Admin')
+  @ApiOperation({ summary: 'Get status counts' })
+  @ApiResponse({ status: 200, description: 'Status counts' })
+  getStatusCounts() {
+    return this.visitsService.getStatusCounts();
+  }
   @Get('patient/:patientId')
   @Roles('Receptionist', 'Nurse', 'Doctor', 'Admin')
   @ApiOperation({ summary: 'Get all visits for a patient' })

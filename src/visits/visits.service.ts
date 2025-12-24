@@ -90,4 +90,89 @@ export class VisitsService {
     }
     return null;
   }
+  async getAppointmentStats(): Promise<any> {
+    const stats = await this.visitModel.aggregate([
+      {
+        $group: {
+          _id: '$visitStatus',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const mappedStats = {
+      Booked: 0,
+      Arrived: 0,
+      Cancelled: 0,
+      'No-Show': 0,
+    };
+
+    stats.forEach((s) => {
+      if (s._id === 'Cancelled') {
+        mappedStats.Cancelled = s.count;
+      } else {
+        mappedStats.Booked += s.count;
+      }
+
+      if (
+        [
+          'Under Assessment',
+          'With Doctor',
+          'In Treatment',
+          'Completed',
+        ].includes(s._id)
+      ) {
+        mappedStats.Arrived += s.count;
+      }
+
+      if (s._id === 'Waiting') {
+        mappedStats['No-Show'] = s.count;
+      }
+    });
+
+    return mappedStats;
+  }
+  async getStatusCounts(): Promise<any> {
+    const stats = await this.visitModel.aggregate([
+      {
+        $group: {
+          _id: {
+            status: '$visitStatus',
+            payment: '$paymentRecorded',
+          },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const mappedStats = {
+      Waiting: 0,
+      'Nursing Done': 0,
+      'Dr. Done': 0,
+      Billed: 0,
+    };
+
+    stats.forEach((s) => {
+      const status = s._id.status;
+      const payment = s._id.payment;
+
+      if (status === 'Waiting') {
+        mappedStats.Waiting += s.count;
+      }
+
+      if (status === 'Under Assessment') {
+        mappedStats['Nursing Done'] += s.count;
+      }
+
+      if (['With Doctor', 'In Treatment'].includes(status)) {
+        mappedStats['Dr. Done'] += s.count;
+      }
+
+      if (status === 'Completed' && payment === 'Yes') {
+        mappedStats.Billed += s.count;
+      }
+    });
+
+    return mappedStats;
+  }
 }
