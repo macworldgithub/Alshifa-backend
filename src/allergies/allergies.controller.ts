@@ -30,7 +30,7 @@ export class AllergiesController {
   constructor(private readonly allergiesService: AllergiesService) {}
 
   @Post()
-  @Roles('Doctor', 'Nurse')
+  @Roles('Admin', 'Doctor', 'Nurse')
   @ApiOperation({ summary: 'Create allergy' })
   @ApiResponse({ status: 201, description: 'Allergy created' })
   create(@Body() createAllergyDto: CreateAllergyDto) {
@@ -46,7 +46,7 @@ export class AllergiesController {
   }
 
   @Put(':id')
-  @Roles('Doctor', 'Nurse')
+  @Roles('Admin', 'Doctor', 'Nurse')
   @ApiOperation({ summary: 'Update allergy by ID' })
   @ApiResponse({ status: 200, description: 'Allergy updated' })
   update(@Param('id') id: string, @Body() updateAllergyDto: UpdateAllergyDto) {

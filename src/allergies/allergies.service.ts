@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AllergyDocument, Allergy } from 'src/schemas/allergy.schema';
+import { Allergy, AllergyDocument } from 'src/schemas/allergy.schema';
 import { CreateAllergyDto } from './dto/create-allergy.dto';
 import { UpdateAllergyDto } from './dto/update-allergy.dto';
 

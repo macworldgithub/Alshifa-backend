@@ -32,7 +32,7 @@ export class SocialHistoriesController {
   ) {}
 
   @Post()
-  @Roles('Doctor', 'Nurse')
+  @Roles('Admin', 'Doctor', 'Nurse')
   @ApiOperation({ summary: 'Create social history' })
   @ApiResponse({ status: 201, description: 'Social history created' })
   create(@Body() createSocialHistoryDto: CreateSocialHistoryDto) {
@@ -48,7 +48,7 @@ export class SocialHistoriesController {
   }
 
   @Put(':id')
-  @Roles('Doctor', 'Nurse')
+  @Roles('Admin', 'Doctor', 'Nurse')
   @ApiOperation({ summary: 'Update social history by ID' })
   @ApiResponse({ status: 200, description: 'Social history updated' })
   update(

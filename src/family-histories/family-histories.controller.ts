@@ -32,7 +32,7 @@ export class FamilyHistoriesController {
   ) {}
 
   @Post()
-  @Roles('Doctor', 'Nurse')
+  @Roles('Admin', 'Doctor', 'Nurse')
   @ApiOperation({ summary: 'Create family history' })
   @ApiResponse({ status: 201, description: 'Family history created' })
   create(@Body() createFamilyHistoryDto: CreateFamilyHistoryDto) {
@@ -48,7 +48,7 @@ export class FamilyHistoriesController {
   }
 
   @Put(':id')
-  @Roles('Doctor', 'Nurse')
+  @Roles('Admin', 'Doctor', 'Nurse')
   @ApiOperation({ summary: 'Update family history by ID' })
   @ApiResponse({ status: 200, description: 'Family history updated' })
   update(
