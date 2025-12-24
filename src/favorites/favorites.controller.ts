@@ -31,7 +31,7 @@ export class FavoritesController {
   constructor(private readonly favoritesService: FavoritesService) {}
 
   @Post()
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Create favorite' })
   @ApiResponse({ status: 201, description: 'Favorite created' })
   create(@Body() createFavoriteDto: CreateFavoriteDto, @Request() req) {
@@ -48,7 +48,7 @@ export class FavoritesController {
   }
 
   @Get(':id')
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Get favorite by ID' })
   @ApiResponse({ status: 200, description: 'Favorite details' })
   findOne(@Param('id') id: string) {
@@ -56,7 +56,7 @@ export class FavoritesController {
   }
 
   @Put(':id')
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Update favorite by ID' })
   @ApiResponse({ status: 200, description: 'Favorite updated' })
   update(
@@ -67,7 +67,7 @@ export class FavoritesController {
   }
 
   @Delete(':id')
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Delete favorite by ID' })
   @ApiResponse({ status: 200, description: 'Favorite deleted' })
   remove(@Param('id') id: string) {

@@ -31,7 +31,7 @@ export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
   @Post()
-  @Roles('Receptionist')
+  @Roles('Receptionist', 'Admin')
   @ApiOperation({ summary: 'Record payment' })
   @ApiResponse({ status: 201, description: 'Payment recorded' })
   create(@Body() createPaymentDto: CreatePaymentDto, @Request() req) {
@@ -47,7 +47,7 @@ export class PaymentsController {
   }
 
   @Put(':id')
-  @Roles('Receptionist')
+  @Roles('Receptionist', 'Admin')
   @ApiOperation({ summary: 'Update payment by ID' })
   @ApiResponse({ status: 200, description: 'Payment updated' })
   update(@Param('id') id: string, @Body() updatePaymentDto: UpdatePaymentDto) {

@@ -99,7 +99,7 @@ export class FileUploadsController {
   constructor(private readonly fileUploadsService: FileUploadsService) {}
 
   @Post()
-  @Roles('Doctor', 'Nurse', 'Receptionist')
+  @Roles('Doctor', 'Nurse', 'Receptionist', 'Admin')
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Upload file' })

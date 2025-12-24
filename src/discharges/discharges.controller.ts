@@ -31,7 +31,7 @@ export class DischargesController {
   constructor(private readonly dischargesService: DischargesService) {}
 
   @Post()
-  @Roles('Doctor', 'Nurse')
+  @Roles('Doctor', 'Nurse', 'Admin')
   @ApiOperation({ summary: 'Create discharge record' })
   @ApiResponse({ status: 201, description: 'Discharge created' })
   create(@Body() createDischargeDto: CreateDischargeDto, @Request() req) {
@@ -47,7 +47,7 @@ export class DischargesController {
   }
 
   @Put(':id')
-  @Roles('Doctor', 'Nurse')
+  @Roles('Doctor', 'Nurse', 'Admin')
   @ApiOperation({ summary: 'Update discharge by ID' })
   @ApiResponse({ status: 200, description: 'Discharge updated' })
   update(

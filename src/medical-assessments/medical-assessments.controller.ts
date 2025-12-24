@@ -33,7 +33,7 @@ export class MedicalAssessmentsController {
   ) {}
 
   @Post()
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Create medical assessment' })
   @ApiResponse({ status: 201, description: 'Assessment created' })
   create(
@@ -55,7 +55,7 @@ export class MedicalAssessmentsController {
   }
 
   @Put(':id')
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Update medical assessment by ID' })
   @ApiResponse({ status: 200, description: 'Assessment updated' })
   update(

@@ -31,7 +31,7 @@ export class DiagnosesController {
   constructor(private readonly diagnosesService: DiagnosesService) {}
 
   @Post()
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Create diagnosis' })
   @ApiResponse({ status: 201, description: 'Diagnosis created' })
   create(@Body() createDiagnosisDto: CreateDiagnosisDto, @Request() req) {
@@ -47,7 +47,7 @@ export class DiagnosesController {
   }
 
   @Put(':id')
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Update diagnosis by ID' })
   @ApiResponse({ status: 200, description: 'Diagnosis updated' })
   update(

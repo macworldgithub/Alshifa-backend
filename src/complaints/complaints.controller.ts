@@ -31,7 +31,7 @@ export class ComplaintsController {
   constructor(private readonly complaintsService: ComplaintsService) {}
 
   @Post()
-  @Roles("Admin",'Nurse', 'Doctor')
+  @Roles('Admin', 'Nurse', 'Doctor')
   @ApiOperation({ summary: 'Create complaint' })
   @ApiResponse({ status: 201, description: 'Complaint created' })
   create(@Body() createComplaintDto: CreateComplaintDto, @Request() req) {
@@ -47,7 +47,7 @@ export class ComplaintsController {
   }
 
   @Put(':id')
-  @Roles('Nurse', 'Doctor')
+  @Roles('Nurse', 'Doctor', 'Admin')
   @ApiOperation({ summary: 'Update complaint by ID' })
   @ApiResponse({ status: 200, description: 'Complaint updated' })
   update(

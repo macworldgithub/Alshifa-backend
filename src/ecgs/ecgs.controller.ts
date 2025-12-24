@@ -30,7 +30,7 @@ export class EcgsController {
   constructor(private readonly ecgsService: EcgsService) {}
 
   @Post()
-  @Roles('Doctor', 'Nurse')
+  @Roles('Doctor', 'Nurse', 'Admin')
   @ApiOperation({ summary: 'Create ECG record' })
   @ApiResponse({ status: 201, description: 'ECG created' })
   create(@Body() createEcgDto: CreateEcgDto) {
@@ -46,7 +46,7 @@ export class EcgsController {
   }
 
   @Put(':id')
-  @Roles('Doctor', 'Nurse')
+  @Roles('Doctor', 'Nurse', 'Admin')
   @ApiOperation({ summary: 'Update ECG by ID' })
   @ApiResponse({ status: 200, description: 'ECG updated' })
   update(@Param('id') id: string, @Body() updateEcgDto: UpdateEcgDto) {

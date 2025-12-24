@@ -58,7 +58,13 @@ export class VisitsService {
       .populate('doctorAssigned')
       .exec();
   }
-
+  async findByPatient(patientId: string): Promise<VisitDocument[]> {
+    return this.visitModel
+      .find({ patient: patientId })
+      .populate('patient')
+      .populate('doctorAssigned')
+      .exec();
+  }
   async update(
     id: string,
     updateVisitDto: UpdateVisitDto,

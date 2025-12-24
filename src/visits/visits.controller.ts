@@ -31,7 +31,7 @@ export class VisitsController {
   constructor(private readonly visitsService: VisitsService) {}
 
   @Post()
-  @Roles('Receptionist','Admin')
+  @Roles('Receptionist', 'Admin')
   @ApiOperation({ summary: 'Create a new visit' })
   @ApiResponse({ status: 201, description: 'Visit created' })
   create(@Body() createVisitDto: CreateVisitDto, @Request() req) {
@@ -45,7 +45,13 @@ export class VisitsController {
   findAll() {
     return this.visitsService.findAll();
   }
-
+  @Get('patient/:patientId')
+  @Roles('Receptionist', 'Nurse', 'Doctor', 'Admin')
+  @ApiOperation({ summary: 'Get all visits for a patient' })
+  @ApiResponse({ status: 200, description: 'List of visits for the patient' })
+  findByPatient(@Param('patientId') patientId: string) {
+    return this.visitsService.findByPatient(patientId);
+  }
   @Get(':id')
   @Roles('Receptionist', 'Nurse', 'Doctor', 'Admin')
   @ApiOperation({ summary: 'Get visit by ID' })
@@ -71,7 +77,7 @@ export class VisitsController {
   }
 
   @Post('call-next-token')
-  @Roles('Doctor')
+  @Roles('Doctor', 'Admin')
   @ApiOperation({ summary: 'Call next token for doctor' })
   @ApiResponse({ status: 200, description: 'Next visit called' })
   callNextToken(@Request() req) {

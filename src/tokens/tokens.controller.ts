@@ -20,7 +20,7 @@ export class TokensController {
   constructor(private readonly tokensService: TokensService) {}
 
   @Post()
-  @Roles('Receptionist')
+  @Roles('Receptionist', 'Admin')
   @ApiOperation({ summary: 'Create token' })
   @ApiResponse({ status: 201, description: 'Token created' })
   create(@Body() createTokenDto: CreateTokenDto) {

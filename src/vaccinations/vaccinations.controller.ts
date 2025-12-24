@@ -58,7 +58,7 @@ export class VaccinationsController {
   }
 
   @Put(':id')
-  @Roles('Nurse', 'Doctor')
+  @Roles('Nurse', 'Doctor', 'Admin')
   @ApiOperation({ summary: 'Update vaccination by ID' })
   @ApiResponse({ status: 200, description: 'Vaccination updated' })
   update(
