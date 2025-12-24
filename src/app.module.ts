@@ -22,6 +22,9 @@ import { FavoritesModule } from './favorites/favorites.module';
 import { MastersModule } from './masters/masters.module';
 import { FileUploadsModule } from './file-uploads/file-uploads.module';
 import { DischargesModule } from './discharges/discharges.module';
+import { FamilyHistoriesModule } from './family-histories/family-histories.module';
+import { AllergiesModule } from './allergies/allergies.module';
+import { SocialHistoriesModule } from './social-histories/social-histories.module';
 
 @Module({
   imports: [
@@ -49,6 +52,9 @@ import { DischargesModule } from './discharges/discharges.module';
     MastersModule,
     FileUploadsModule,
     DischargesModule,
+    FamilyHistoriesModule,
+    AllergiesModule,
+    SocialHistoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
